@@ -31,6 +31,7 @@ const App = () => {
 
   return (
     <div className="main-container">
+      {/* input field for search query */}
       <input
         type="text"
         className="search"
@@ -39,6 +40,31 @@ const App = () => {
         onChange={(e) => setQuery(e.target.value)}
         onKeyPress={search}
       />
+
+      {/* weather card */}
+      {weather.main && (
+        <div className="city">
+          <h2 className="city-name">
+            <span>{weather.name}</span>
+            {/* adds the three letter country name as a superscript */}
+            <sup>{weather.sys.country}</sup>
+          </h2>
+          <div className="city-temp">
+            {/* rounds off the temperature and displays it */}
+            {Math.round(weather.main.temp)}
+            {/* adding the degree symbol as a superscript */}
+            <sup>&deg;C</sup>
+          </div>
+          <div className="info">
+            {/* adding weather icon from OpenWeatherAPI */}
+            <img
+              className="city-icon"
+              src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+              alt={weather.weather[0].description}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
