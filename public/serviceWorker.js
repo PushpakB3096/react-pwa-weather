@@ -29,3 +29,21 @@ self.addEventListener("fetch", (e) => {
 });
 
 // activate the service worker
+self.addEventListener("activate", (e) => {
+  // caches to keep
+  const cacheWhiteList = [];
+  cacheWhiteList.push(CACHE_NAME);
+
+  // loops through all the caches and removes all that are not present in the whitelist
+  e.waitUntil(
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!cacheWhiteList.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
+      )
+    )
+  );
+});
