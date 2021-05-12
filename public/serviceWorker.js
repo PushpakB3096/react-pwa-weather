@@ -15,5 +15,17 @@ self.addEventListener("install", (e) => {
 });
 
 // listen for requests
+self.addEventListener("fetch", (e) => {
+  /*
+        For every request that we receive, we need to check if that request is part of the cache.
+        If it is, then we are simply 'forwarding' the request and fetching it. While fetching, if
+        there is an error, then we need to load 'offline.html'
+    */
+  e.respondWith(
+    caches.match(e.request).then(() => {
+      return fetch(e.request).catch(() => caches.match("offline.html"));
+    })
+  );
+});
 
 // activate the service worker
